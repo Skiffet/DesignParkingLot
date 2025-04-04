@@ -49,14 +49,20 @@ class ParkingSpot {
   }
 
   print(): string {
-    if (this.vehicle === null) {
-      switch (this.spotSize) {
-        case VehicleSize.Compact: return 'c';
-        case VehicleSize.Large: return 'l';
-        case VehicleSize.Motorcycle: return 'm';
-      }
+    if (this.vehicle !== null) {
+      return this.vehicle.print();
     }
-    return this.vehicle!.print();
+  
+    switch (this.spotSize) {
+      case VehicleSize.Compact:
+        return 'c';
+      case VehicleSize.Large:
+        return 'l';
+      case VehicleSize.Motorcycle:
+        return 'm';
+      default:
+        return '?';
+    }
   }
 }
 

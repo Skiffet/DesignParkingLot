@@ -1,12 +1,15 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../ui/ParkingLot.css'; // ถ้าใช้ Tailwind อย่างเดียวสามารถลบได้
 import Level from '../../lib/level';
 import { AbstractVehicle } from '../../lib/vehicle';
 import Bus from '../../lib/bus';
 import Car from '../../lib/car';
 import Motorcycle from '../../lib/motorcycle';
+import Levels from '../../lib/models/Level';
+import ParkingSpot from '../../lib/parkingSpot';
+import { VehicleSize } from '../../lib/vehicleSize';
 
 const getSpotClass = (spot: string): string => {
   return `spot-${spot}`;
@@ -19,6 +22,23 @@ const ParkingLot: React.FC = () => {
   const [levels, setLevels] = useState<Level[]>(
     Array.from({ length: NUM_LEVELS }, (_, i) => new Level(i, SPOTS_PER_LEVEL))
   );
+
+  useEffect(() => {
+    const fetchLevels = async () => {
+      try {
+        const response = await fetch('/api/level/');
+        const data = await response.json();
+        const levelInstances = data.map(Level.fromData);
+        
+        setLevels(levelInstances);
+      } catch (error) {
+        console.error('Error fetching levels:', error);
+      }
+    };
+  
+    fetchLevels();
+  }, []);
+
 
   const [parkedVehicles, setParkedVehicles] = useState<AbstractVehicle[]>([]);
   const [busFull, setBusFull] = useState(false);
@@ -94,7 +114,7 @@ const ParkingLot: React.FC = () => {
     setAllFull(false);
   };
 
-  // console.log("levels", levels);
+  
 
   return (
     <div className="container">

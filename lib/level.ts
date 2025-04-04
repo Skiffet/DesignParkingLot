@@ -21,9 +21,29 @@ class Level {
     }
   }
 
+  static fromData(data: any): Level {
+    const level = new Level(data.floor, 0);
+  
+    level.spots = data.spots.flatMap((spotGroup: any[]) =>
+      spotGroup.map((s: any) => {
+        const size = s.size || s.spotSize;
+        const row = s.row;
+        const spotNumber = s.spotNumber;
+  
+        return new ParkingSpot(level, row, spotNumber, size as VehicleSize);
+      })
+    );
+  
+    return level;
+  }
+
   // ✅ ใช้สำหรับอนาคต เช่น แสดงเลขชั้น
   public getFloor(): number {
     return this.floor;
+  }
+
+  public getSpots(): ParkingSpot[] {
+    return this.spots;
   }
 
   // ✅ จอดรถ (เช่น Bus ต้องใช้หลายจุดติดกัน)
