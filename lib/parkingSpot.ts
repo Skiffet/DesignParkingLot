@@ -12,11 +12,29 @@ class ParkingSpot {
   private spotNumber: number;
   private level: Level;
 
-  constructor(level: Level, row: number, spotNumber: number, spotSize: VehicleSize) {
+  constructor(level: Level, row: number, spotNumber: number, spotSize: VehicleSize, vehicleType: string | null = null) {
     this.level = level;
     this.row = row;
     this.spotNumber = spotNumber;
     this.spotSize = spotSize;
+    
+    this.settingVehicleType(vehicleType);
+  }
+
+  settingVehicleType(vehicleType: string | null): void {
+    if (vehicleType) {
+      switch (vehicleType) {
+        case 'Car':
+          this.vehicle = new Car();
+          break;
+        case 'Bus':
+          this.vehicle = new Bus();
+          break;
+        case 'Motorcycle':
+          this.vehicle = new Motorcycle();
+          break;
+      }
+    }
   }
 
   isAvailable(): boolean {

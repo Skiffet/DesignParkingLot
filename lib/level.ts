@@ -29,8 +29,15 @@ class Level {
       const size = s.size || s.spotSize;
       const row = s.row;
       const spotNumber = s.spotNumber;
+      const vehicleType = s.vehicleType ?? null;
   
-      return new ParkingSpot(level, row, spotNumber, size as VehicleSize);
+      return new ParkingSpot(
+        level,
+        row,
+        spotNumber,
+        size as VehicleSize,
+        vehicleType
+      );
     });
   
     return level;

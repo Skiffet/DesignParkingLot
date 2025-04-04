@@ -19,9 +19,7 @@ const ParkingLot: React.FC = () => {
   const NUM_LEVELS = 3;
   const SPOTS_PER_LEVEL = 30;
 
-  const [levels, setLevels] = useState<Level[]>(
-    Array.from({ length: NUM_LEVELS }, (_, i) => new Level(i, SPOTS_PER_LEVEL))
-  );
+  const [levels, setLevels] = useState<Level[]>();
 
   useEffect(() => {
     const fetchLevels = async () => {
@@ -57,7 +55,7 @@ const ParkingLot: React.FC = () => {
             isAvailable: spot.isAvailable(),
             vehicleType: spot.getVehicleType?.(),
           }))
-        : level.spots, // fallback if it's already plain
+        : level.spots,
     }));
   
     try {
@@ -76,7 +74,6 @@ const ParkingLot: React.FC = () => {
 
   // 🔵 จอดรถแบบสุ่ม
   const parkRandomVehicle = (): boolean => {
-    console.log('🚗 Parking a random vehicle...');
     const MAX_ATTEMPTS = 20;
     let busBlocked = false;
 
@@ -147,7 +144,7 @@ const ParkingLot: React.FC = () => {
   const addDB = async () => {
     let size: VehicleSize;
     const newLevel = {
-      floor: 1,
+      floor: 3,
       spots: Array.from({ length: SPOTS_PER_LEVEL }, (_, i) => {
         if (i <= 9) {
           size = VehicleSize.Large;
@@ -170,16 +167,13 @@ const ParkingLot: React.FC = () => {
     };
 
     try {
-      const response = await fetch('/api/level', {
+      await fetch('/api/level', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(newLevel),
       });
-      console.log('Response:', response);
-      const data = await response.json();
-      console.log('Data from server:', data);
 
     } catch (error) {
       console.error('Error saving data:', error);
@@ -228,7 +222,7 @@ const ParkingLot: React.FC = () => {
       </div>
 
       {/* 🔳 แสดงชั้นและช่อง */}
-      {levels.map((level, index) => (
+      {levels && levels.map((level, index) => (
         <div key={index} className="level-section">
           <h2 className="level-title">Floor {index+1}</h2>
           <div className="parking-level">
