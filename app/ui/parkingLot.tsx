@@ -29,7 +29,7 @@ const ParkingLot: React.FC = () => {
         const response = await fetch('/api/level/');
         const data = await response.json();
         const levelInstances = data.map(Level.fromData);
-        
+
         setLevels(levelInstances);
       } catch (error) {
         console.error('Error fetching levels:', error);
@@ -45,9 +45,38 @@ const ParkingLot: React.FC = () => {
   const [allFull, setAllFull] = useState(false);
 
   const vehicleTypes = [Bus, Car, Motorcycle];
+  
+  const saveLevelsToDB = async () => {
+    const levelData = levels.map((level: any) => ({
+      floor: level.getFloor ? level.getFloor() : level.floor,
+      spots: level.getSpots
+        ? level.getSpots().map((spot: ParkingSpot) => ({
+            row: spot.getRow(),
+            spotNumber: spot.getSpotNumber(),
+            size: spot.getSize(),
+            isAvailable: spot.isAvailable(),
+            vehicleType: spot.getVehicleType?.(),
+          }))
+        : level.spots, // fallback if it's already plain
+    }));
+  
+    try {
+      const res = await fetch('/api/level/save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ levels: levelData }),
+      });
+  
+      const result = await res.json();
+      console.log("📦 Save result:", result);
+    } catch (err) {
+      console.error("❌ Error saving levels:", err);
+    }
+  };
 
   // 🔵 จอดรถแบบสุ่ม
   const parkRandomVehicle = (): boolean => {
+    console.log('🚗 Parking a random vehicle...');
     const MAX_ATTEMPTS = 20;
     let busBlocked = false;
 
@@ -62,7 +91,8 @@ const ParkingLot: React.FC = () => {
           if (vehicle instanceof Bus) {
             setBusFull(false);
           }
-
+          
+          saveLevelsToDB();
           return true;
         }
       }
@@ -114,11 +144,56 @@ const ParkingLot: React.FC = () => {
     setAllFull(false);
   };
 
-  
+  const addDB = async () => {
+    let size: VehicleSize;
+    const newLevel = {
+      floor: 1,
+      spots: Array.from({ length: SPOTS_PER_LEVEL }, (_, i) => {
+        if (i <= 9) {
+          size = VehicleSize.Large;
+        } else if (i <= 19) {
+          size = VehicleSize.Compact;
+        } else {
+          size = VehicleSize.Motorcycle;
+        }
+    
+        const spot = new ParkingSpot(null as any, 0, i, size);
+    
+        return {
+          row: spot.getRow(),
+          spotNumber: spot.getSpotNumber(),
+          size: spot.getSize(),
+          isAvailable: spot.isAvailable(),
+          vehicleType: spot.getVehicleType(),
+        };
+      }),
+    };
+
+    try {
+      const response = await fetch('/api/level', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newLevel),
+      });
+      console.log('Response:', response);
+      const data = await response.json();
+      console.log('Data from server:', data);
+
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+
+  }
 
   return (
     <div className="container">
       <h1 className="title">Parking Lot</h1>
+      
+      <button onClick={addDB} className="btn bg-green-500 text-white px-4 py-2 rounded mb-4">
+        Add Level to DB
+      </button>
 
       {/* 🔔 แจ้งเตือนเมื่อ Bus เต็ม */}
       {busFull && (

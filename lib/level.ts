@@ -3,6 +3,7 @@ import { VehicleSize } from './vehicleSize';
 import { AbstractVehicle } from './vehicle';
 
 class Level {
+  [x: string]: any;
   private spots: ParkingSpot[] = [];
   private floor: number;
 
@@ -24,15 +25,13 @@ class Level {
   static fromData(data: any): Level {
     const level = new Level(data.floor, 0);
   
-    level.spots = data.spots.flatMap((spotGroup: any[]) =>
-      spotGroup.map((s: any) => {
-        const size = s.size || s.spotSize;
-        const row = s.row;
-        const spotNumber = s.spotNumber;
+    level.spots = data.spots.map((s: any) => {
+      const size = s.size || s.spotSize;
+      const row = s.row;
+      const spotNumber = s.spotNumber;
   
-        return new ParkingSpot(level, row, spotNumber, size as VehicleSize);
-      })
-    );
+      return new ParkingSpot(level, row, spotNumber, size as VehicleSize);
+    });
   
     return level;
   }

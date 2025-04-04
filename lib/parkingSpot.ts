@@ -1,6 +1,9 @@
 import { VehicleSize } from './vehicleSize';
 import { AbstractVehicle } from './vehicle';
 import Level from './level';
+import Car from './car';
+import Bus from './bus';
+import Motorcycle from './motorcycle';
 
 class ParkingSpot {
   private vehicle: AbstractVehicle | null = null;
@@ -41,6 +44,13 @@ class ParkingSpot {
 
   getSize(): VehicleSize {
     return this.spotSize;
+  }
+
+  getVehicleType(): string | null {
+    if (this.vehicle instanceof Car) return "Car";
+    if (this.vehicle instanceof Bus) return "Bus";
+    if (this.vehicle instanceof Motorcycle) return "Motorcycle";
+    return null;
   }
 
   removeVehicle(): void {
