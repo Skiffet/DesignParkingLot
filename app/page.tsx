@@ -33,17 +33,8 @@
 // }
 
 
-import { VehicleSize } from "./lib/vehicleSize";
-import { Bus } from "./lib/bus";
+import ParkingLot from './ui/parkingLot';
 
 export default function Home() {
-    const bus = new Bus("ABC-1234");
-
-    return (
-        <div>
-            <h1>Welcome to Car Parking</h1>
-            <p>Example Vehicle Size: {VehicleSize.Compact}</p>
-            <p>Bus License Plate: {bus.licensePlate}</p>
-        </div>
-    );
+  return <ParkingLot />;
 }

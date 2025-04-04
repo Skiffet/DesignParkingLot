@@ -1,0 +1,26 @@
+.parking-level {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 4px;
+    width: fit-content;
+  }
+  
+  .spot {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+  
+  /* เพิ่มสีพื้นหลังให้ดูแยกประเภท */
+  .spot-m { background-color: #d1fae5; } /* m = motorcycle spot */
+  .spot-c { background-color: #dbeafe; } /* c = compact spot */
+  .spot-l { background-color: #e5e7eb; } /* l = large spot */
+  .spot-M { background-color: #6ee7b7; } /* M = motorcycle parked */
+  .spot-C { background-color: #93c5fd; } /* C = car parked */
+  .spot-B { background-color: #fca5a5; } /* B = bus parked */
