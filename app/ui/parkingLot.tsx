@@ -138,9 +138,57 @@ const ParkingLot: React.FC = () => {
     }
   };
 
+  // const addDB = async () => {
+  //   let size: VehicleSize;
+  //   const newLevel = {
+  //     floor: 4,
+  //     spots: Array.from({ length: SPOTS_PER_LEVEL }, (_, i) => {
+  //       if (i >= 0 && i <= 9) {
+  //         size = VehicleSize.Large;
+  //       } else if (i >= 10 && i <= 19) {
+  //         size = VehicleSize.Compact;
+  //       } else {
+  //         size = VehicleSize.Motorcycle;
+  //       }
+
+  //       const spot = new ParkingSpot(levels[0], 0, i, size);
+  //       return {
+  //         row: spot.getRow(),
+  //         spotNumber: spot.getSpotNumber(),
+  //         size: spot.getSize(),
+  //         isAvailable: spot.isAvailable(),
+  //       };
+  //     }),
+  //   };
+  //   // console.log("JSON newLevel", JSON.stringify(newLevel)); 
+
+  //   try {
+  //     const response = await fetch('/api/level', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //       body: JSON.stringify(newLevel),
+  //     });
+  //     console.log('Response:', response);
+  //     const data = await response.json();
+  //     console.log('Data from server:', data);
+
+  //   } catch (error) {
+  //     console.error('Error saving data:', error);
+  //   }
+
+  // }
+
   return (
     <div className="container">
       <h1 className="title">Parking Lot</h1>
+      {/* <button
+        onClick={addDB}
+        className="btn bg-green-500 text-white px-4 py-2 rounded mb-4"
+      >
+        Add Level to DB
+      </button> */}
 
       {/* 🔔 แจ้งเตือนเมื่อ Bus เต็ม */}
       {busFull && (
