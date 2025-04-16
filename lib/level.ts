@@ -43,7 +43,7 @@ class Level {
     return level;
   }
 
-  // ✅ ใช้สำหรับอนาคต เช่น แสดงเลขชั้น
+  // ใช้สำหรับอนาคต เช่น แสดงเลขชั้น
   public getFloor(): number {
     return this.floor;
   }
@@ -52,7 +52,7 @@ class Level {
     return this.spots;
   }
 
-  // ✅ จอดรถ (เช่น Bus ต้องใช้หลายจุดติดกัน)
+  // จอดรถ (เช่น Bus ต้องใช้หลายจุดติดกัน)
   public parkVehicle(vehicle: AbstractVehicle): boolean {
     const spotsNeeded = vehicle.getSpotsNeeded();
 
@@ -73,10 +73,10 @@ class Level {
       }
     }
 
-    return false; // ❌ ไม่มีจุดจอดที่เหมาะสม
+    return false;
   }
 
-  // ✅ ใช้สำหรับตรวจว่ารถสามารถจอดที่ชั้นนี้ได้หรือไม่
+  //ใช้สำหรับตรวจว่ารถสามารถจอดที่ชั้นนี้ได้หรือไม่
   public canParkVehicle(vehicle: AbstractVehicle): boolean {
     const spotsNeeded = vehicle.getSpotsNeeded();
 
@@ -92,12 +92,11 @@ class Level {
     return false;
   }
 
-  // ✅ สำหรับอนาคต: เมื่อรถออก
   public spotFreed(): void {
     // ยังไม่ต้องทำอะไรตอนนี้
   }
 
-  // ✅ ใช้ใน UI เพื่อแสดงตัวอักษรของแต่ละจุด
+  //ใช้ใน UI เพื่อแสดงตัวอักษรของแต่ละจุด
   public print(): string[] {
     return this.spots.map((spot) => spot.print());
   }

@@ -17,7 +17,7 @@
     border-radius: 4px;
   }
   
-  /* เพิ่มสีพื้นหลังให้ดูแยกประเภท */
+
   .spot-m { background-color: #d1fae5; } /* m = motorcycle spot */
   .spot-c { background-color: #dbeafe; } /* c = compact spot */
   .spot-l { background-color: #e5e7eb; } /* l = large spot */
